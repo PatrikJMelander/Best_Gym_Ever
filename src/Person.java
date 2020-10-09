@@ -1,3 +1,5 @@
+import java.time.LocalDate;
+
 /**
  * Created by Patrik Melander
  * Date: 2020-10-08
@@ -8,14 +10,17 @@
 public class Person {
     String persoNr;
     String name;
-    String latestPaymentDate;
+    LocalDate latestPaymentDate;
+
 
     public Person() {
     }
 
-    public Person(String persoNr, String name, String latestPaymentDate) {
+    public Person(String persoNr, String name, LocalDate latestPaymentDate) {
         this.persoNr = persoNr;
         this.name = name;
         this.latestPaymentDate = latestPaymentDate;
     }
+
+
 }

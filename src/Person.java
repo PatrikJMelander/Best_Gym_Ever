@@ -1,3 +1,7 @@
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.time.LocalDate;
 
 /**
@@ -22,5 +26,16 @@ public class Person {
         this.latestPaymentDate = latestPaymentDate;
     }
 
+
+    public static void registerVisits(Person person) throws IOException {
+            PrintWriter print = new PrintWriter(new BufferedWriter(new FileWriter("CustomerVisits.txt", true)));
+
+            StringBuilder stringBuilder = new StringBuilder();
+            LocalDate today = LocalDate.now();
+            stringBuilder.append(person.name).append("\n").append(person.persoNr).append("\n").append(today);
+            print.println(stringBuilder);
+
+            print.close();
+    }
 
 }

@@ -1,9 +1,5 @@
 import java.io.*;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -16,7 +12,7 @@ import java.util.*;
 public class Gym {
     boolean test = false;
 
-    ArrayList <Person> customers = new ArrayList<>();
+    ArrayList<Person> customers = new ArrayList<>();
 
     public void createListFromFile(String fileName) {
 
@@ -34,88 +30,89 @@ public class Gym {
         }
     }
 
-    public LocalDate searchForPersonNrOrName() {
+    public Person searchForCustomer() {
         Scanner scan = new Scanner(System.in);
 
-        if (this.test) {
+        System.out.print("Ange personnr eller fullständigt namn på personen du vill söka på: ");
+        String input = scan.nextLine();
 
-            for (int i = 0; i < customers.size(); i++) {
-                if (customers.get(i).name.equals("Test Person1"))
-                    return customers.get(i).latestPaymentDate;
+        while (true) {
+        for (int i = 0; i < customers.size(); i++) {
+            Person person = new Person();
+            if (customers.get(i).name.equals(input) || (customers.get(i).persoNr.equals(input))) {
 
-                else if (customers.get(i).persoNr.equals("1111111111"))
-                    return customers.get(i).latestPaymentDate;
-
+                person.latestPaymentDate = customers.get(i).latestPaymentDate;
+                person.persoNr = customers.get(i).persoNr;
+                person.name = customers.get(i).name;
+                return person;
             }
-            System.out.println("Kunde tyvärr inte hitta kunden");
-            return null;
-
         }
-        else {
-            System.out.print("Ange personnr eller fullständigt namn på personen du vill söka på: ");
-            String input = scan.nextLine();
+        System.out.println("Kunde tyvärr inte hitta kunden\n" +
+                "Vill du försöka igen? (Ja/Nej)");
 
-            for (int i = 0; i < customers.size(); i++) {
-                if (customers.get(i).name.equals(input))
-                    return customers.get(i).latestPaymentDate;
 
-                else if (customers.get(i).persoNr.equals(input))
-                    return customers.get(i).latestPaymentDate;
-
+            input = scan.next().toLowerCase().trim();
+            if (input.equals("ja")) {
+                System.out.print("Ange personnr eller fullständigt namn på personen du vill söka på: ");
             }
-            System.out.println("Kunde tyvärr inte hitta kunden");
-            return null;
+            else if (input.equals("nej")) {
+                System.out.println("Avslutar utan att hitta en befintlig kund");
+                break;
+            }
+            else//TODO Lös denna
+                System.out.println("felaktig inmatning, försök igen\n" +
+                        "Vill du göra en ny sökning (Ja/Nej)?");
         }
 
-
+        return null;
     }
-    public void isCustomerActive(){
-        LocalDate active = searchForPersonNrOrName();
+
+
+
+    public void isCustomerActive() throws IOException {
+        String input = null;
+        Scanner scan = new Scanner(System.in);
+        Person person = searchForCustomer();
+        LocalDate active = person.latestPaymentDate;
         LocalDate todaysDate = LocalDate.now();
         active.plusYears(1);
         if (active.isAfter(todaysDate)){
             System.out.println("Kunden är aktiv, registrera besök?");
-            //TODO Metod för att registrera kund
+            Person.registerVisits( person);
         }
         else{
             System.out.println("Kunden har inget akvitv medlemskap!\n" +
                     "Ta betalt för engångsbesök (Ja/Nej)?");
-            //TODO Metod för att registrera kund
+            while (true) {
+
+
+            input = scan.next().toLowerCase().trim();
+            if (input.equals("ja")) {
+                Person.registerVisits(person);
+                break;
+            }
+            else if (input.equals("nej")) {
+                System.out.println("Ingen träning registrerad");
+                break;
+            }
+            else
+                System.out.println("felaktig inmatning, försök igen\n" +
+                        "Ta betalt för engångsbesök (Ja/Nej)?");
+            }
         }
 
 
-    }
-    public static void registerVisits(Person person) throws IOException {
-            PrintWriter print = new PrintWriter(new BufferedWriter(new FileWriter("CustomerVisits.txt", true)));
-
-            StringBuilder stringBuilder = new StringBuilder();
-            LocalDate today = LocalDate.now();
-            stringBuilder.append(person.name).append("\n").append(person.persoNr).append("\n").append(today);
-            print.println(stringBuilder);
-
-            print.close();
     }
 
 
     //TODO: Skapa menysystem för gymmet
     //      Ska finnas inloggning för personal (om de finns tid)
-    //      Ska finnas en sökfunktion om de är medlemmar
+    //      Ska finnas en sökfunktion om de är medlemmar:
     //      Ska finnas en sökfunktion som visar medlemmarnas träningstillfällen (för pt)
     //      Ska finnas förnya medlemskap
     //      Ska finnas stäng systemet
-    //
+    //      Ska finnas Förnya medlemskap
 
-    public static void checkLastPaymentDate() {
-
-
-    }
-
-    public static void main(String[] args) {
-
-
-        checkLastPaymentDate();
-
-    }
 
 }
 

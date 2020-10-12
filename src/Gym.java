@@ -17,13 +17,13 @@ public class Gym {
     public void createListFromFile(String fileName) {
         try (Scanner fileScanner = new Scanner(new FileReader(fileName)).useDelimiter(", | \n")) {
             while (fileScanner.hasNextLine()) {
-                String personId = fileScanner.next().trim();
+                String socialSecurityNumber = fileScanner.next().trim();
                 String name = fileScanner.next().trim();
                 String dateString = fileScanner.next().trim();
                 LocalDate date = LocalDate.parse(dateString);
-                this.customers.add(new Person(name, personId, date));
+                this.customers.add(new Person(name, socialSecurityNumber, date));
             }
-            System.out.println("Fil skapad");
+            System.out.println("Listan uppdaterad");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -32,7 +32,7 @@ public class Gym {
     public Person searchForMember() {
         System.out.print("Ange personnr eller fullständigt namn på personen du vill söka på: ");
         String input = scan.nextLine();
-        //TODO Felhantera input
+
         outerloop:
         while (true) {
             for (int i = 0; i < customers.size(); i++) {
@@ -42,6 +42,9 @@ public class Gym {
                     person.latestPaymentDate = customers.get(i).latestPaymentDate;
                     person.socialSecurityNumber = customers.get(i).socialSecurityNumber;
                     person.name = customers.get(i).name;
+
+                    System.out.println("Du har hittat: " + person.name + " " + person.socialSecurityNumber +
+                            " hen betalade sitt medlemskap" + person.latestPaymentDate);
                     return person;
                 }
             }
@@ -65,118 +68,98 @@ public class Gym {
         return null;
     }
 
-    public void isCustomerActive() throws IOException {
+    public void isCustomerActive(){
         String input = null;
         Person person = searchForMember();
         LocalDate active = person.latestPaymentDate;
-        LocalDate todaysDate = LocalDate.now();
+        LocalDate todayDate = LocalDate.now();
         active.plusYears(1);
-        if (active.isAfter(todaysDate)) {
-            System.out.println("Kunden är aktiv, registrera besök?");
-            Person.registerVisits(person);
-        } else {
-            System.out.println("Kunden har inget akvitv medlemskap!\n" +
-                    "Ta betalt för engångsbesök (Ja/Nej)?");
+            if (active.isAfter(todayDate)) {
+                System.out.println("Kunden är aktiv, registrera besök?");
+                Person.registerVisits(person);
+            } else {
+                System.out.println("Kunden har inget akvitv medlemskap!\n" +
+                        "Ta betalt för engångsbesök (Ja/Nej)?");
 
-            while (true) {
-                input = scan.next().toLowerCase().trim();
-                if (input.equals("ja")) {
-                    Person.registerVisits(person);
-                    break;
-                } else if (input.equals("nej")) {
-                    System.out.println("Ingen träning registrerad");
-                    break;
-                } else
-                    System.out.println("felaktig inmatning, försök igen\n" +
-                            "Ta betalt för engångsbesök (Ja/Nej)?");
-            }
-        }
-    }
-
-    public void mainMenu() {
-        String input;
-        boolean running = true;
-        while (running) {
-            System.out.println("\n\nVälj vad du vill göra:\n\n" +
-                    "1. Medlemmar\n" +
-                    "2. PT\n" +
-                    "3. Avsluta\n" +
-                    "4. Spara alla ändringar");
-
-            input = scan.nextLine();
-
-            switch (input) {
-                case "1" -> menmberMenu();
-                case "2" -> ptMenu();
-                case "3" -> running = exitMenu();
-                default -> System.out.println("Ange ett giltigt val! (1-3)");
-            }
-        }
-    }
-
-
-    public void menmberMenu() {
-        String input;
-
-        while (true) {
-            System.out.println("\nVälj vad du vill göra:\n" +
-                    "1. Sök efter medlem\n" +
-                    "2. Förnya medlemskap\n" +
-                    "3. Ta bort medlem\n" +
-                    "4. Skapa nytt medlemskap\n" +
-                    "5. Skriv ut lista på alla medlemmar\n" +
-                    "6. Återgå till huvudmenyn");
-
-            input = scan.nextLine();
-
-            switch (input) {
-                case "1" -> searchForMember();
-                case "2" -> updateMembership();
-                case "3" -> deleteMember();
-                case "4" -> createNewMember();
-                case "5" -> printListofMembers();
-                case "6" -> {
-                    return;
+                while (true) {
+                    input = scan.next().toLowerCase().trim();
+                    if (input.equals("ja")) {
+                        Person.registerVisits(person);
+                        break;
+                    } else if (input.equals("nej")) {
+                        System.out.println("Ingen träning registrerad");
+                        break;
+                    } else
+                        System.out.println("felaktig inmatning, försök igen\n" +
+                                "Ta betalt för engångsbesök (Ja/Nej)?");
                 }
-                default -> System.out.println("Ange ett giltigt val! (1-6)");
             }
+
         }
+
+    public void updateMembership(){
+        Person temp = new Person();
+        temp = searchForMember();
+
+
+        System.out.println(temp + " har nu uppdaterat sitt medlemskap");
+
+
+
+    }
+    public void deleteMember(){
+        Person temp;
+        temp = searchForMember();
+        System.out.println(temp + " är nu borttagen ifrån systemet");
+        customers.remove(temp);
+        updateCustomerFile();
+
+
+    }
+    public void createNewMember(){
+        LocalDate todayDate = LocalDate.now();
+        Person person = new Person();
+        System.out.println("skriv in medlemens personr");
+        person.socialSecurityNumber = scan.next();
+        System.out.println("skriv in medlemens namn");
+        person.name = scan.next();
+        System.out.println("skriv in medlemens personr");
+        person.latestPaymentDate =  todayDate;
+        customers.add(person);
+        updateCustomerFile();
+    }
+    public void createNewMember(Person person) {
+        LocalDate todayDate = LocalDate.now();
+        person.latestPaymentDate = todayDate;
+        customers.add(person);
+        updateCustomerFile();
     }
 
-    public void ptMenu(){
-        String input;
+    public void printListofMembers(){
 
-        while (true) {
-            System.out.println("\nVälj vad du vill göra:\n" +
-                    "1. Skriv ut lista på alla träningstillfällen\n" +
-                    "2. Skriv ut lista på en persons träningstillfällen\n" +
-                    "3. Återgå till huvudmenyn");
+    }
+    public void printListOfAllMembersExercise(){
 
-            input = scan.nextLine();
+    }
+    public void printOneMemberExercise(){
 
-            switch (input) {
-                case "1" -> printListOfAllMembersExercise();
-                case "2" -> printOneMemberExercise();
-                case "3" -> {
-                    return;
+    }
+    public void updateCustomerFile(){
+        {
+            try {
+                PrintWriter print = new PrintWriter(new BufferedWriter(new FileWriter("Customer.txt", false)));
+
+                StringBuilder stringBuilder = new StringBuilder();
+                LocalDate today = LocalDate.now();
+                for (var person : customers) {
+                    stringBuilder.append(person.socialSecurityNumber).append(", ").append(person.name).append("\n").append(today);
+                    print.println(stringBuilder);
                 }
-                default -> System.out.println("Ange ett giltigt val! (1-3)");
-            }
-        }
-    }
 
-    public boolean exitMenu() {
-        System.out.println("Är du säker på att du vill avsluta? (Ja/Nej) ");
-        String input = scan.nextLine();
-        while (true) {
-            if (input.equalsIgnoreCase("ja")) {
-                System.out.println("Tack för besöket! Välkommen åter!");
-                return false;
-            } else if (input.equalsIgnoreCase("nej")) {
-                System.out.println("Stanna så längen du vill");
-                return true;
-            } else
-                System.out.print("Nu blev de fel, testa igen: ");
+                print.close();
+            }catch (IOException e){
+                System.out.println("Problem med att skriva till fil");
+            }
         }
     }
 }
@@ -193,5 +176,5 @@ public class Gym {
 //      Se över alla variabelnamn och metodnamn
 
 
-}
+
 

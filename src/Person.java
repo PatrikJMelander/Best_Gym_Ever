@@ -27,15 +27,23 @@ public class Person {
         this.latestPaymentDate = latestPaymentDate;
     }
 
-    public static void registerVisits(Person person) throws IOException {
-            PrintWriter print = new PrintWriter(new BufferedWriter(new FileWriter("CustomerVisits.txt", true)));
+    public static void registerVisits(Person person) {
+           try {
+               PrintWriter print = new PrintWriter(new BufferedWriter(new FileWriter("CustomerVisits.txt", true)));
 
-            StringBuilder stringBuilder = new StringBuilder();
-            LocalDate today = LocalDate.now();
-            stringBuilder.append(person.name).append("\n").append(person.socialSecurityNumber).append("\n").append(today);
-            print.println(stringBuilder);
+               StringBuilder stringBuilder = new StringBuilder();
+               LocalDate today = LocalDate.now();
+               stringBuilder.append(person.name).append("\n").append(person.socialSecurityNumber).append("\n").append(today);
+               print.println(stringBuilder);
 
-            print.close();
+               print.close();
+           }catch (IOException e){
+               System.out.println("Problem med att skriva till fil");
+           }
     }
 
+    @Override
+    public String toString() {
+        return socialSecurityNumber + ", " + name + "\n" + latestPaymentDate;
+    }
 }

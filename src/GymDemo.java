@@ -6,8 +6,14 @@
  * Copyright: MIT
  */
 public class GymDemo {
-    public static void main(String[] args) {
+    GymDemo (){
+        Gym gym = new Gym();
+        gym.createListFromFile("Customer.txt");
+        MenuSystem.mainMenu();
 
+    }
+    public static void main(String[] args) {
+        GymDemo gymDemo = new GymDemo();
 
     }
 }

@@ -112,6 +112,7 @@ public class Gym {
     //      Ska finnas förnya medlemskap
     //      Ska finnas stäng systemet
     //      Ska finnas Förnya medlemskap
+    //      Dubbelkolla alla metoder så det finns exceptions
 
 
 }

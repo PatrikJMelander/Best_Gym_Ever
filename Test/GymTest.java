@@ -36,7 +36,7 @@ public class GymTest {
 
 
         for (int i = 0; i < customers.size(); i++) {
-            assertEquals(customers.get(i).persoNr, testList1.get(i).persoNr);
+            assertEquals(customers.get(i).socialSecurityNumber, testList1.get(i).socialSecurityNumber);
             assertEquals(customers.get(i).name, testList1.get(i).name);
             assertEquals(customers.get(i).latestPaymentDate, testList1.get(i).latestPaymentDate);
         }

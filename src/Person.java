@@ -12,27 +12,27 @@ import java.time.LocalDate;
  * Copyright: MIT
  */
 public class Person {
-    String persoNr;
+    String socialSecurityNumber;
     String name;
     LocalDate latestPaymentDate;
+
 
 
     public Person() {
     }
 
-    public Person(String persoNr, String name, LocalDate latestPaymentDate) {
-        this.persoNr = persoNr;
+    public Person(String socialSecurityNumber, String name, LocalDate latestPaymentDate) {
+        this.socialSecurityNumber = socialSecurityNumber;
         this.name = name;
         this.latestPaymentDate = latestPaymentDate;
     }
-
 
     public static void registerVisits(Person person) throws IOException {
             PrintWriter print = new PrintWriter(new BufferedWriter(new FileWriter("CustomerVisits.txt", true)));
 
             StringBuilder stringBuilder = new StringBuilder();
             LocalDate today = LocalDate.now();
-            stringBuilder.append(person.name).append("\n").append(person.persoNr).append("\n").append(today);
+            stringBuilder.append(person.name).append("\n").append(person.socialSecurityNumber).append("\n").append(today);
             print.println(stringBuilder);
 
             print.close();

@@ -100,22 +100,19 @@ public class Gym {
     public void updateMembership(){
         Person temp = new Person();
         temp = searchForMember();
-
-
+        customers.remove(temp);
+        createNewMember(temp);
         System.out.println(temp + " har nu uppdaterat sitt medlemskap");
-
-
-
     }
+
     public void deleteMember(){
         Person temp;
         temp = searchForMember();
         System.out.println(temp + " är nu borttagen ifrån systemet");
         customers.remove(temp);
         updateCustomerFile();
-
-
     }
+
     public void createNewMember(){
         LocalDate todayDate = LocalDate.now();
         Person person = new Person();
@@ -136,7 +133,9 @@ public class Gym {
     }
 
     public void printListofMembers(){
-
+        for (var member : customers){
+            System.out.println(member);
+        }
     }
     public void printListOfAllMembersExercise(){
 

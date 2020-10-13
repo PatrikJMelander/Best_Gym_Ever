@@ -1,3 +1,6 @@
+import java.io.Serializable;
+import java.util.ArrayList;
+
 /**
  * Created by Patrik Melander
  * Date: 2020-10-09
@@ -5,10 +8,11 @@
  * Project: Gym
  * Copyright: MIT
  */
-public class GymDemo {
+public class GymDemo implements Serializable {
     GymDemo (){
         Gym gym = new Gym();
-        gym.createListFromFile("Customer.txt", gym.customers);
+        Gym.deSerialize();
+        gym.createListFromFile("Customer.txt", Gym.customers);
         MenuSystem.mainMenu();
 
     }

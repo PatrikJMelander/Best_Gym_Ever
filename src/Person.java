@@ -8,7 +8,7 @@ import java.time.LocalDate;
  * Project: Gym
  * Copyright: MIT
  */
-public class Person{
+public class Person implements Serializable{
     String socialSecurityNumber;
     String name;
     LocalDate latestPaymentDate;
@@ -40,5 +40,29 @@ public class Person{
     @Override
     public String toString() {
         return socialSecurityNumber + ", " + name + "\n" + latestPaymentDate;
+    }
+
+    public String getSocialSecurityNumber() {
+        return socialSecurityNumber;
+    }
+
+    public void setSocialSecurityNumber(String socialSecurityNumber) {
+        this.socialSecurityNumber = socialSecurityNumber;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public LocalDate getLatestPaymentDate() {
+        return latestPaymentDate;
+    }
+
+    public void setLatestPaymentDate(LocalDate latestPaymentDate) {
+        this.latestPaymentDate = latestPaymentDate;
     }
 }

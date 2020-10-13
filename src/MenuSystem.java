@@ -16,7 +16,7 @@ public class MenuSystem {
         boolean running = true;
         while (running) {
             System.out.println("\n\nVälj vad du vill göra:\n\n" +
-                    "1. Medlemmar\n" +
+                    "1. Hantera medlemmar\n" +
                     "2. PT\n" +
                     "3. Avsluta\n" +
                     "4. Spara alla ändringar");
@@ -72,14 +72,14 @@ public class MenuSystem {
         while (true) {
             System.out.println("\nVälj vad du vill göra:\n" +
                     "1. Skriv ut lista på alla träningstillfällen\n" +
-                    "2. Skriv ut lista på en persons träningstillfällen\n" +
+                    "2. Se hur många gånger en person tränat\n" +
                     "3. Återgå till huvudmenyn");
 
             input = scan.nextLine();
 
             switch (input) {
                 case "1" -> gym.printListOfAllMembersExercise();
-                case "2" -> gym.printOneMemberExercise();
+                case "2" -> gym.countOneMembersExercise();
                 case "3" -> {
                     return;
                 }

@@ -1,4 +1,3 @@
-import java.io.IOException;
 import java.util.Scanner;
 
 /**
@@ -11,6 +10,7 @@ import java.util.Scanner;
 public class MenuSystem {
 
     public static void mainMenu() {
+        Gym gym = new Gym();
         Scanner scan = new Scanner(System.in);
         String input;
         boolean running = true;
@@ -18,16 +18,17 @@ public class MenuSystem {
             System.out.println("\n\nVälj vad du vill göra:\n\n" +
                     "1. Hantera medlemmar\n" +
                     "2. PT\n" +
-                    "3. Avsluta\n" +
-                    "4. Spara alla ändringar");
+                    "3. Uppdatera textfilen\n" +
+                    "4. Avsluta\n");
 
             input = scan.nextLine();
 
             switch (input) {
                 case "1" -> memberMenu();
                 case "2" -> ptMenu();
-                case "3" -> running = exitMenu();
-                default -> System.out.println("Ange ett giltigt val! (1-3)");
+                case "3" -> gym.updateCustomerFile();
+                case "4" -> running = exitMenu();
+                default -> System.out.println("Ange ett giltigt val! (1-4)");
             }
         }
     }
@@ -55,7 +56,7 @@ public class MenuSystem {
                 case "3" -> gym.updateMembership();
                 case "4" -> gym.deleteMember();
                 case "5" -> gym.createNewMember();
-                case "6" -> gym.printListofMembers();
+                case "6" -> gym.printListOfMembers();
                 case "7" -> {
                     return;
                 }

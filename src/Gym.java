@@ -1,5 +1,4 @@
 import java.io.*;
-import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.*;
@@ -17,7 +16,7 @@ public class Gym implements Serializable{
 
     public static void serialize() {
         try {
-            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("customers.ser", false));
+            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("customers.ser"));
             out.writeObject(customers);
             out.close();
         } catch (IOException e) {
@@ -77,16 +76,14 @@ public class Gym implements Serializable{
             input = scan.next().toLowerCase().trim();
             while (true)
                 if (input.equals("ja")) {
-                    scan.reset();
+                    scan.nextLine();
                     System.out.print("Ange personnr eller fullständigt namn på personen du vill söka på: ");
-                    input = scan.nextLine().trim();
                     break;
                 } else if (input.equals("nej")) {
+                    scan.nextLine();
                     System.out.println("Avslutar utan att hitta en befintlig kund");
-                    scan.reset();
                     break outerloop;
                 } else {
-                    scan.reset();
                     System.out.println("felaktig inmatning, försök igen\n" +
                             "Vill du göra en ny sökning (Ja/Nej)?");
                     input = scan.next().toLowerCase().trim();
@@ -103,29 +100,35 @@ public class Gym implements Serializable{
             LocalDate active = person.getLatestPaymentDate().plusYears(1);;
             LocalDate todayDate = LocalDate.now();
             if (active.isAfter(todayDate)) {
+                scan.nextLine();
                 System.out.println("Kunden är aktiv, registrerar besök");
                 Person.registerVisits(person);
             } else {
+                scan.nextLine();
                 System.out.println("Kunden har inget akvitv medlemskap!\n" +
                         "Förnya medlemskap? (Ja/Nej)?");
 
                 while (true) {
                     input = scan.next().toLowerCase().trim();
                     if (input.equals("ja")) {
-                        updateMembership(person);
+                        scan.nextLine();
+                        updateMembership();
                         break;
                     } else if (input.equals("nej")) {
+                        scan.nextLine();
                         System.out.println("Ingen träning registrerad");
                         break;
-                    } else
-                        System.out.println("felaktig inmatning, försök igen\n" +
-                                "Ta betalt för engångsbesök (Ja/Nej)?");
+                    } else {
+                        scan.nextLine();
+                        System.out.println("felaktig inmatning, försök igen\n");
+                    }
                 }
             }
         }catch (NullPointerException e){
+            scan.nextLine();
             System.out.println("Ingen medlem hittades, återgår till huvudmenyn");
         }
-
+        serialize();
     }
 
     public void updateMembership(){
@@ -134,83 +137,74 @@ public class Gym implements Serializable{
         temp = searchForMember();
         temp.setLatestPaymentDate(LocalDate.now());
         System.out.println(temp + " Medlemskap uppdaterat");
-        updateCustomerFile();
-        serialize();
-    }
-
-    public void updateMembership(Person temp){
-        deSerialize();
-        temp.setLatestPaymentDate(LocalDate.now());
-        System.out.println(temp + " har nu uppdaterat sitt medlemskap");
-        updateCustomerFile();
         serialize();
     }
 
     public void deleteMember(){
-        deSerialize();
+        customers = deSerialize();
         Person temp;
         temp = searchForMember();
         System.out.println(temp + " är nu borttagen ifrån systemet");
         customers.remove(temp);
-        updateCustomerFile();
         serialize();
     }
 
     public void createNewMember(){
-        deSerialize();
+        customers = deSerialize();
         LocalDate todayDate = LocalDate.now();
         Person person = new Person();
-        System.out.println("skriv in medlemens personr");
+        System.out.println("Skriv in medlemens personr");
         person.socialSecurityNumber = scan.next();
-        System.out.println("skriv in medlemens namn");
+        System.out.println("Skriv in medlemens fullständiga namn");
         person.name = scan.next();
-        System.out.println("skriv in medlemens personr");
         person.latestPaymentDate =  todayDate;
         customers.add(person);
-        updateCustomerFile();
-        serialize();
-    }
-    /*public void createNewMember(Person person) {
-        deSerialize();
-        LocalDate todayDate = LocalDate.now();
-        person.latestPaymentDate = todayDate;
-        customers.add(person);
-        updateCustomerFile();
         serialize();
     }
 
-     */
-
-    public void printListofMembers(){
-        deSerialize();
-        for (var member : customers){
-            System.out.println(member);
+    public void printListOfMembers(){
+        customers = deSerialize();
+        try {
+            for (var member : customers) {
+                System.out.println(member);
+            }
+        }catch (NullPointerException e) {
+            System.out.println("Listan är tom");
         }
     }
 
     public void printListOfAllMembersExercise(){
-        ArrayList <Person> exerciseList= new ArrayList<>();
+        List <Person> exerciseList= new ArrayList<>();
         createListFromFile("CustomerVisits.txt", exerciseList);
 
-
-
+        for (var member : exerciseList){
+            System.out.println(member);
+        }
     }
     public void countOneMembersExercise(){
+        List <Person> exerciseList= new ArrayList<>();
+        createListFromFile("CustomerVisits.txt", exerciseList);
+        Person temp = searchForMember();
+        int couter = 0;
 
+        for (var member : exerciseList){
+            if (member.getName().equals(temp.getName()) ||
+                    member.getSocialSecurityNumber().equals(temp.getSocialSecurityNumber()));
+            couter++;
+        }
+        System.out.println(temp.getName() + "har tränat " + couter + "gånger");
     }
 
     public void updateCustomerFile(){
             deSerialize();
             try {
                 PrintWriter print = new PrintWriter(new BufferedWriter(new FileWriter("Customer.txt", false)));
-
+                printListOfMembers();
                 StringBuilder stringBuilder = new StringBuilder();
-                LocalDate today = LocalDate.now();
                 for (var person : customers) {
-                    stringBuilder.append(person.socialSecurityNumber).append(", ").append(person.name).append("\n").append(today).append("\n");
+                    stringBuilder.append(person.socialSecurityNumber).append(", ").append(person.name).append("\n").append(person.latestPaymentDate).append("\n");
                     print.println(stringBuilder);
                 }
-
                 print.close();
             }catch (IOException e){
                 System.out.println("Problem med att skriva till fil");
@@ -218,6 +212,8 @@ public class Gym implements Serializable{
             serialize();
 
     }
+
+
 }
 
 

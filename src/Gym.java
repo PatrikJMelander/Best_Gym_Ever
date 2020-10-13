@@ -210,21 +210,11 @@ public class Gym implements Serializable{
                 System.out.println("Problem med att skriva till fil");
             }
             serialize();
-
     }
-
-
 }
 
 
-//TODO: Skapa menysystem för gymmet
-//      Ska finnas inloggning för personal (om de finns tid)
-//      Ska finnas en sökfunktion om de är medlemmar:
-//      Ska finnas en sökfunktion som visar medlemmarnas träningstillfällen (för pt)
-//      Ska finnas förnya medlemskap
-//      Ska finnas stäng systemet
-//      Ska finnas Förnya medlemskap
-//      Dubbelkolla alla metoder så det finns exceptions
+//TODO: Dubbelkolla alla metoder så det finns exceptions
 //      Se över alla variabelnamn och metodnamn
 //      Kolla så att alla scanners och liknande ligger i try (Try with Resorces)
 

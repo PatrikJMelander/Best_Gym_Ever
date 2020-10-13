@@ -1,7 +1,4 @@
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.time.LocalDate;
 
 /**
@@ -11,11 +8,10 @@ import java.time.LocalDate;
  * Project: Gym
  * Copyright: MIT
  */
-public class Person {
+public class Person{
     String socialSecurityNumber;
     String name;
     LocalDate latestPaymentDate;
-
 
     public Person() {
     }

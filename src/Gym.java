@@ -9,7 +9,7 @@ import java.util.*;
  * Project: Gym
  * Copyright: MIT
  */
-public class Gym {
+public class Gym{
     boolean test = false;
     ArrayList<Person> customers = new ArrayList<>();
     Scanner scan = new Scanner(System.in);

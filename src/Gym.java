@@ -100,11 +100,9 @@ public class Gym implements Serializable{
             LocalDate active = person.getLatestPaymentDate().plusYears(1);;
             LocalDate todayDate = LocalDate.now();
             if (active.isAfter(todayDate)) {
-                scan.nextLine();
                 System.out.println("Kunden är aktiv, registrerar besök");
                 Person.registerVisits(person);
             } else {
-                scan.nextLine();
                 System.out.println("Kunden har inget akvitv medlemskap!\n" +
                         "Förnya medlemskap? (Ja/Nej)?");
 
@@ -189,10 +187,11 @@ public class Gym implements Serializable{
 
         for (var member : exerciseList){
             if (member.getName().equals(temp.getName()) ||
-                    member.getSocialSecurityNumber().equals(temp.getSocialSecurityNumber()));
-            couter++;
+                    member.getSocialSecurityNumber().equals(temp.getSocialSecurityNumber()))
+                couter++;
+
         }
-        System.out.println(temp.getName() + "har tränat " + couter + "gånger");
+        System.out.println(temp.getName() + "har tränat " + couter + " gånger");
     }
 
     public void updateCustomerFile(){

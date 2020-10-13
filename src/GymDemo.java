@@ -11,8 +11,8 @@ import java.util.ArrayList;
 public class GymDemo implements Serializable {
     GymDemo (){
         Gym gym = new Gym();
-        Gym.deSerialize();
         gym.createListFromFile("Customer.txt", Gym.customers);
+        Gym.deSerialize();
         MenuSystem.mainMenu();
 
     }

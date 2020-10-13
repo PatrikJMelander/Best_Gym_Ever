@@ -58,10 +58,11 @@ public class Gym implements Serializable{
         customers = deSerialize();
 
         System.out.print("Ange personnr eller fullständigt namn på personen du vill söka på: ");
-        String input = scan.nextLine().trim();
+
 
         outerloop:
         while (true) {
+            String input = scan.nextLine().trim();
             for (var person : customers){
                 if (person.getName().equals(input) || person.getSocialSecurityNumber().equals(input)) {
 
@@ -76,9 +77,9 @@ public class Gym implements Serializable{
             input = scan.next().toLowerCase().trim();
             while (true)
                 if (input.equals("ja")) {
+                    scan.reset();
                     System.out.print("Ange personnr eller fullständigt namn på personen du vill söka på: ");
                     input = scan.nextLine().trim();
-                    scan.reset();
                     break;
                 } else if (input.equals("nej")) {
                     System.out.println("Avslutar utan att hitta en befintlig kund");

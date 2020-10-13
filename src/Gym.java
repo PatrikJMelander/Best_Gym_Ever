@@ -14,14 +14,14 @@ public class Gym {
     ArrayList<Person> customers = new ArrayList<>();
     Scanner scan = new Scanner(System.in);
 
-    public void createListFromFile(String fileName) {
+    public void createListFromFile(String fileName, ArrayList list) {
         try (Scanner fileScanner = new Scanner(new FileReader(fileName)).useDelimiter(", | \n")) {
             while (fileScanner.hasNextLine()) {
                 String socialSecurityNumber = fileScanner.next().trim();
                 String name = fileScanner.next().trim();
                 String dateString = fileScanner.next().trim();
                 LocalDate date = LocalDate.parse(dateString);
-                this.customers.add(new Person(name, socialSecurityNumber, date));
+                list.add(new Person(name, socialSecurityNumber, date));
             }
             System.out.println("Listan uppdaterad");
         } catch (FileNotFoundException e) {
@@ -79,12 +79,12 @@ public class Gym {
                 Person.registerVisits(person);
             } else {
                 System.out.println("Kunden har inget akvitv medlemskap!\n" +
-                        "Ta betalt för engångsbesök (Ja/Nej)?");
+                        "Förnya medlemskap? (Ja/Nej)?");
 
                 while (true) {
                     input = scan.next().toLowerCase().trim();
                     if (input.equals("ja")) {
-                        Person.registerVisits(person);
+                        updateMembership(person);
                         break;
                     } else if (input.equals("nej")) {
                         System.out.println("Ingen träning registrerad");
@@ -100,6 +100,12 @@ public class Gym {
     public void updateMembership(){
         Person temp = new Person();
         temp = searchForMember();
+        customers.remove(temp);
+        createNewMember(temp);
+        System.out.println(temp + " har nu uppdaterat sitt medlemskap");
+    }
+
+    public void updateMembership(Person temp){
         customers.remove(temp);
         createNewMember(temp);
         System.out.println(temp + " har nu uppdaterat sitt medlemskap");
@@ -138,13 +144,19 @@ public class Gym {
         }
     }
     public void printListOfAllMembersExercise(){
+        ArrayList <Person> exerciseList= new ArrayList<>();
+        createListFromFile("CustomerVisits.txt", exerciseList);
+
+
 
     }
-    public void printOneMemberExercise(){
+    /*public void printOneMemberExercise(){
 
     }
+
+     */
     public void updateCustomerFile(){
-        {
+
             try {
                 PrintWriter print = new PrintWriter(new BufferedWriter(new FileWriter("Customer.txt", false)));
 
@@ -159,7 +171,7 @@ public class Gym {
             }catch (IOException e){
                 System.out.println("Problem med att skriva till fil");
             }
-        }
+
     }
 }
 
@@ -173,6 +185,7 @@ public class Gym {
 //      Ska finnas Förnya medlemskap
 //      Dubbelkolla alla metoder så det finns exceptions
 //      Se över alla variabelnamn och metodnamn
+//      Kolla så att alla scanners och liknande ligger i try (Try with Resorces)
 
 
 

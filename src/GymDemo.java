@@ -8,7 +8,7 @@
 public class GymDemo {
     GymDemo (){
         Gym gym = new Gym();
-        gym.createListFromFile("Customer.txt");
+        gym.createListFromFile("Customer.txt", gym.customers);
         MenuSystem.mainMenu();
 
     }

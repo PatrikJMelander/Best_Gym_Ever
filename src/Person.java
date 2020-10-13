@@ -17,7 +17,6 @@ public class Person {
     LocalDate latestPaymentDate;
 
 
-
     public Person() {
     }
 
@@ -33,7 +32,7 @@ public class Person {
 
                StringBuilder stringBuilder = new StringBuilder();
                LocalDate today = LocalDate.now();
-               stringBuilder.append(person.name).append("\n").append(person.socialSecurityNumber).append("\n").append(today);
+               stringBuilder.append(person.socialSecurityNumber).append(", ").append(person.name).append("\n").append(today);
                print.println(stringBuilder);
 
                print.close();

@@ -32,7 +32,7 @@ public class GymTest {
     public void printFileToListTest() {
 
 
-        gym.createListFromFile("Test.txt");
+        gym.createListFromFile("Test.txt", customers);
 
 
         for (int i = 0; i < customers.size(); i++) {

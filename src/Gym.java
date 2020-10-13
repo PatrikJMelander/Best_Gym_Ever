@@ -92,7 +92,7 @@ public class Gym implements Serializable{
     }
 
     public void isCustomerActive(){
-        deSerialize();
+        customers = deSerialize();
         String input = null;
         Person person = searchForMember();
         LocalDate active = person.latestPaymentDate;
@@ -122,11 +122,11 @@ public class Gym implements Serializable{
         }
 
     public void updateMembership(){
-        deSerialize();
+        customers = deSerialize();
         Person temp;
         temp = searchForMember();
         temp.setLatestPaymentDate(LocalDate.now());
-        System.out.println(temp + " har nu uppdaterat sitt medlemskap");
+        System.out.println(temp + " Medlemskap uppdaterat");
         updateCustomerFile();
         serialize();
     }
@@ -200,7 +200,7 @@ public class Gym implements Serializable{
                 StringBuilder stringBuilder = new StringBuilder();
                 LocalDate today = LocalDate.now();
                 for (var person : customers) {
-                    stringBuilder.append(person.socialSecurityNumber).append(", ").append(person.name).append("\n").append(today);
+                    stringBuilder.append(person.socialSecurityNumber).append(", ").append(person.name).append("\n").append(today).append("\n");
                     print.println(stringBuilder);
                 }
 

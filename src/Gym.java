@@ -17,7 +17,7 @@ public class Gym implements Serializable{
 
     public static void serialize() {
         try {
-            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("customers.ser"));
+            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("customers.ser", false));
             out.writeObject(customers);
             out.close();
         } catch (IOException e) {
@@ -66,7 +66,7 @@ public class Gym implements Serializable{
                 if (person.getName().equals(input) || person.getSocialSecurityNumber().equals(input)) {
 
                     System.out.println("Du har hittat: " + person.name + " " + person.socialSecurityNumber +
-                            " hen betalade sitt medlemskap" + person.latestPaymentDate);
+                            " hen betalade sitt medlemskap " + person.latestPaymentDate);
                     return person;
                 }
             }
@@ -78,11 +78,14 @@ public class Gym implements Serializable{
                 if (input.equals("ja")) {
                     System.out.print("Ange personnr eller fullständigt namn på personen du vill söka på: ");
                     input = scan.nextLine().trim();
+                    scan.reset();
                     break;
                 } else if (input.equals("nej")) {
                     System.out.println("Avslutar utan att hitta en befintlig kund");
+                    scan.reset();
                     break outerloop;
                 } else {
+                    scan.reset();
                     System.out.println("felaktig inmatning, försök igen\n" +
                             "Vill du göra en ny sökning (Ja/Nej)?");
                     input = scan.next().toLowerCase().trim();
@@ -91,15 +94,15 @@ public class Gym implements Serializable{
         return null;
     }
 
-    public void isCustomerActive(){
+    public void isCustomerActive() {
         customers = deSerialize();
         String input = null;
-        Person person = searchForMember();
-        LocalDate active = person.latestPaymentDate;
-        LocalDate todayDate = LocalDate.now();
-        active.plusYears(1);
+        try {
+            Person person = searchForMember();
+            LocalDate active = person.getLatestPaymentDate().plusYears(1);;
+            LocalDate todayDate = LocalDate.now();
             if (active.isAfter(todayDate)) {
-                System.out.println("Kunden är aktiv, registrera besök?");
+                System.out.println("Kunden är aktiv, registrerar besök");
                 Person.registerVisits(person);
             } else {
                 System.out.println("Kunden har inget akvitv medlemskap!\n" +
@@ -118,8 +121,11 @@ public class Gym implements Serializable{
                                 "Ta betalt för engångsbesök (Ja/Nej)?");
                 }
             }
-
+        }catch (NullPointerException e){
+            System.out.println("Ingen medlem hittades, återgår till huvudmenyn");
         }
+
+    }
 
     public void updateMembership(){
         customers = deSerialize();

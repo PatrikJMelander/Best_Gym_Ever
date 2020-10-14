@@ -43,7 +43,7 @@ public class GymTest {
     public void serializeAndDeSerializeTEST(){
         addToTestList();
         Gym.serialize("customersTEST.ser", testList1);
-        Gym.deSerialize("customersTEST.ser", customers);
+        Gym.deSerialize("customersTEST.ser");
 
         for (int i = 0; i < customers.size(); i++) {
             assertEquals(customers.get(i).socialSecurityNumber, testList1.get(i).socialSecurityNumber);

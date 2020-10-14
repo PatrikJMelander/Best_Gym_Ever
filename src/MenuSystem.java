@@ -18,7 +18,7 @@ public class MenuSystem {
             System.out.println("\n\nVälj vad du vill göra:\n\n" +
                     "1. Hantera medlemmar\n" +
                     "2. PT\n" +
-                    "3. Uppdatera textfilen\n" +
+                    "3. Uppdatera medlemsfilen\n" +
                     "4. Avsluta\n");
 
             input = scan.nextLine();
@@ -26,7 +26,7 @@ public class MenuSystem {
             switch (input) {
                 case "1" -> memberMenu();
                 case "2" -> ptMenu();
-                case "3" -> gym.updateCustomerFile("Customer.txt", Gym.customers, "Customer.ser");
+                case "3" -> Gym.deSerialize("Customer.ser");
                 case "4" -> running = exitMenu();
                 default -> System.out.println("Ange ett giltigt val! (1-4)");
             }
@@ -50,9 +50,9 @@ public class MenuSystem {
 
             switch (input) {
                 case "1" -> gym.searchForMember(Gym.customers);
-                case "2" -> gym.isCustomerActive("Customer.ser", Gym.customers, "CustomerVisits.txt");
+                case "2" -> gym.isCustomerActiveAndRegisterVisit("Customer.ser", Gym.customers, "CustomerVisits.txt");
                 case "3" -> gym.createNewMember("Customer.ser", Gym.customers);
-                case "4" -> gym.printListOfMembers("Customer.ser", Gym.customers);
+                case "4" -> gym.printListOfMembers(Gym.customers);
                 case "5" -> {
                     return;
                 }

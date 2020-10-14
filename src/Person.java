@@ -22,9 +22,10 @@ public class Person implements Serializable{
         this.latestPaymentDate = latestPaymentDate;
     }
 
-    public static void registerVisits(Person person) {
+
+    public static void registerVisits(Person person, String filename) {
            try {
-               PrintWriter print = new PrintWriter(new BufferedWriter(new FileWriter("CustomerVisits.txt", true)));
+               PrintWriter print = new PrintWriter(new BufferedWriter(new FileWriter(filename, true)));
 
                StringBuilder stringBuilder = new StringBuilder();
                LocalDate today = LocalDate.now();

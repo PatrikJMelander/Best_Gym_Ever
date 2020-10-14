@@ -101,7 +101,7 @@ public class Gym implements Serializable{
             LocalDate todayDate = LocalDate.now();
             if (active.isAfter(todayDate)) {
                 System.out.println("Kunden är aktiv, registrerar besök");
-                Person.registerVisits(person);
+                Person.registerVisits(person, "CustomerVisits.txt");
             } else {
                 System.out.println("Kunden har inget akvitv medlemskap!\n" +
                         "Förnya medlemskap? (Ja/Nej)?");

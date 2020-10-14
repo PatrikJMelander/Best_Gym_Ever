@@ -14,24 +14,6 @@ public class Gym implements Serializable {
     public static List<Person> customers = new ArrayList<>();
     Scanner scan = new Scanner(System.in);
 
-    public static void serialize(String fileName, List<Person> listName) {
-        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName))){
-            out.writeObject(listName);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @SuppressWarnings("unchecked")
-    public static List<Person> deSerialize(String fileName) {
-        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(fileName))) {
-            return (List<Person>) in.readObject();
-        } catch (Exception e) {
-            System.out.println("Hittar ej listan på medlemmar");
-        }
-        return null;
-    }
-
     public void createListFromFile(String fileName, List<Person> list, String serializeFileName) {
         try (Scanner fileScanner = new Scanner(new FileReader(fileName)).useDelimiter(",|\n")) {
             while (fileScanner.hasNext()) {
@@ -41,7 +23,7 @@ public class Gym implements Serializable {
                 LocalDate date = LocalDate.parse(dateString);
                 list.add(new Person(socialSecurityNumber, name, date));
             }
-            serialize(serializeFileName, list);
+            IOUtil.serialize(serializeFileName, list);
             System.out.println("Listan uppdaterad");
 
         } catch (FileNotFoundException | DateTimeParseException e) {
@@ -50,9 +32,8 @@ public class Gym implements Serializable {
     }
 
     public Person searchForMember(List<Person> list) {
-        customers = deSerialize("Customers.ser");
-        System.out.print("Ange personnr eller fullständigt namn på personen du vill söka på: ");
 
+        System.out.print("Ange personnr eller fullständigt namn på personen du vill söka på: ");
 
         while (true) {
             String input = scan.nextLine().trim();
@@ -105,7 +86,7 @@ public class Gym implements Serializable {
                 scan.nextLine();
                 System.out.println("Ingen medlem hittades, återgår till huvudmenyn");
             }
-            serialize(customerFileName, list);
+            IOUtil.serialize(customerFileName, list);
 
     }
 
@@ -119,7 +100,7 @@ public class Gym implements Serializable {
         person.name = scan.next();
         person.latestPaymentDate =  todayDate;
         list.add(person);
-        serialize(serializeFileName, list);
+        IOUtil.serialize(serializeFileName, list);
     }
 
     public void printListOfMembers(List <Person> list){

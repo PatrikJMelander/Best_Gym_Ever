@@ -42,8 +42,8 @@ public class GymTest {
     @Test
     public void serializeAndDeSerializeTEST(){
         addToTestList();
-        Gym.serialize("customersTEST.ser", testList1);
-        Gym.deSerialize("customersTEST.ser");
+        IOUtil.serialize("customersTEST.ser", testList1);
+        IOUtil.deSerialize("customersTEST.ser");
 
         for (int i = 0; i < customers.size(); i++) {
             assertEquals(customers.get(i).socialSecurityNumber, testList1.get(i).socialSecurityNumber);

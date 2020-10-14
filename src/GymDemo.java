@@ -11,7 +11,7 @@ public class GymDemo implements Serializable {
     GymDemo (){
         Gym gym = new Gym();
         gym.createListFromFile("Customer.txt", Gym.customers, "Customer.ser");
-        Gym.deSerialize("Customer.ser");
+        Gym.customers= IOUtil.deSerialize("Customer.ser");
         MenuSystem.mainMenu();
 
     }

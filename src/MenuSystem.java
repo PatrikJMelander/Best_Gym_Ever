@@ -26,7 +26,7 @@ public class MenuSystem {
             switch (input) {
                 case "1" -> memberMenu();
                 case "2" -> ptMenu();
-                case "3" -> Gym.deSerialize("Customer.ser");
+                case "3" -> IOUtil.deSerialize("Customer.ser");
                 case "4" -> running = exitMenu();
                 default -> System.out.println("Ange ett giltigt val! (1-4)");
             }

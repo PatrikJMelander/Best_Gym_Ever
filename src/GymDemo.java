@@ -12,7 +12,7 @@ public class GymDemo implements Serializable {
     GymDemo (){
         Gym gym = new Gym();
         gym.createListFromFile("Customer.txt", Gym.customers);
-        Gym.deSerialize();
+        Gym.deSerialize("customers.ser", Gym.customers);
         MenuSystem.mainMenu();
 
     }

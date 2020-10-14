@@ -14,9 +14,9 @@ public class Gym implements Serializable{
     public static List<Person> customers = new ArrayList<>();
     Scanner scan = new Scanner(System.in);
 
-    public static void serialize() {
+    public static void serialize(String fileName, List <Person> customers) {
         try {
-            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("customers.ser"));
+            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName));
             out.writeObject(customers);
             out.close();
         } catch (IOException e) {
@@ -24,14 +24,14 @@ public class Gym implements Serializable{
         }
     }
 
-    public static List<Person> deSerialize() {
+    public static List<Person> deSerialize(String fileName, List <Person> customers) {
         try {
-            ObjectInputStream in = new ObjectInputStream(new FileInputStream("customers.ser"));
+            ObjectInputStream in = new ObjectInputStream(new FileInputStream(fileName));
             customers = (List<Person>) in.readObject();
             in.close();
             return customers;
         } catch (Exception e) {
-            System.out.println("Hittar ej listan på kunder");
+            System.out.println("Hittar ej listan på medlemmar");
         }
         return null;
     }
@@ -45,7 +45,7 @@ public class Gym implements Serializable{
                 LocalDate date = LocalDate.parse(dateString);
                 list.add(new Person(socialSecurityNumber, name, date));
             }
-            serialize();
+            serialize("customers.ser", customers);
             System.out.println("Listan uppdaterad");
 
         } catch (FileNotFoundException | DateTimeParseException e) {
@@ -54,7 +54,7 @@ public class Gym implements Serializable{
     }
 
     public Person searchForMember() {
-        customers = deSerialize();
+        customers = deSerialize("customers.ser", customers);
 
         System.out.print("Ange personnr eller fullständigt namn på personen du vill söka på: ");
 
@@ -93,7 +93,7 @@ public class Gym implements Serializable{
     }
 
     public void isCustomerActive() {
-        customers = deSerialize();
+        customers = deSerialize("customers.ser", customers);
         String input = null;
         try {
             Person person = searchForMember();
@@ -126,29 +126,29 @@ public class Gym implements Serializable{
             scan.nextLine();
             System.out.println("Ingen medlem hittades, återgår till huvudmenyn");
         }
-        serialize();
+        serialize("customers.ser", customers);
     }
 
     public void updateMembership(){
-        customers = deSerialize();
+        customers = deSerialize("customers.ser", customers);
         Person temp;
         temp = searchForMember();
         temp.setLatestPaymentDate(LocalDate.now());
         System.out.println(temp + " Medlemskap uppdaterat");
-        serialize();
+        serialize("customers.ser", customers);
     }
 
     public void deleteMember(){
-        customers = deSerialize();
+        customers = deSerialize("customers.ser", customers);
         Person temp;
         temp = searchForMember();
         System.out.println(temp + " är nu borttagen ifrån systemet");
         customers.remove(temp);
-        serialize();
+        serialize("customers.ser", customers);
     }
 
     public void createNewMember(){
-        customers = deSerialize();
+        customers = deSerialize("customers.ser", customers);
         LocalDate todayDate = LocalDate.now();
         Person person = new Person();
         System.out.println("Skriv in medlemens personr");
@@ -157,11 +157,11 @@ public class Gym implements Serializable{
         person.name = scan.next();
         person.latestPaymentDate =  todayDate;
         customers.add(person);
-        serialize();
+        serialize("customers.ser", customers);
     }
 
     public void printListOfMembers(){
-        customers = deSerialize();
+        customers = deSerialize("customers.ser", customers);
         try {
             for (var member : customers) {
                 System.out.println(member);
@@ -195,7 +195,7 @@ public class Gym implements Serializable{
     }
 
     public void updateCustomerFile(){
-            deSerialize();
+            deSerialize("customers.ser",customers);
             try {
                 PrintWriter print = new PrintWriter(new BufferedWriter(new FileWriter("Customer.txt", false)));
                 printListOfMembers();
@@ -208,7 +208,7 @@ public class Gym implements Serializable{
             }catch (IOException e){
                 System.out.println("Problem med att skriva till fil");
             }
-            serialize();
+            serialize("customers.ser", customers);
     }
 }
 

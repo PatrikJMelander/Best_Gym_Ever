@@ -11,6 +11,10 @@ import java.util.*;
  * Copyright: MIT
  */
 public class Gym implements Serializable {
+    public static boolean test = false;
+    public static void setTest(boolean test) {
+        Gym.test = test;
+    }
     public static List<Person> customers = new ArrayList<>();
     Scanner scan = new Scanner(System.in);
 
@@ -33,10 +37,14 @@ public class Gym implements Serializable {
 
     public Person searchForMember(List<Person> list) {
 
-        System.out.print("Ange personnr eller fullständigt namn på personen du vill söka på: ");
-
         while (true) {
-            String input = scan.nextLine().trim();
+            String input;
+            if (test = true)
+                input = "Test Person1";
+            else {
+                System.out.print("Ange personnr eller fullständigt namn på personen du vill söka på: ");
+                input = scan.nextLine().trim();
+            }
             for (var person : list) {
                 if (person.getName().equalsIgnoreCase(input) ||
                         person.getSocialSecurityNumber().equals(input)) {
@@ -73,8 +81,11 @@ public class Gym implements Serializable {
         try {
             Person person = searchForMember(list);
             LocalDate active = person.getLatestPaymentDate().plusYears(1);
-
-            LocalDate todayDate = LocalDate.now();
+            LocalDate todayDate;
+            if (test = true)
+                todayDate = LocalDate.parse("2020-10-13");
+            else
+            todayDate = LocalDate.now();
             if (active.isAfter(todayDate)) {
                 System.out.println("Kunden är aktiv, registrerar besök");
                 Person.registerVisits(person, customerVisitFileName);
@@ -94,10 +105,16 @@ public class Gym implements Serializable {
 
         LocalDate todayDate = LocalDate.now();
         Person person = new Person();
-        System.out.println("Skriv in medlemens personr");
-        person.socialSecurityNumber = scan.next();
-        System.out.println("Skriv in medlemens fullständiga namn");
-        person.name = scan.next();
+        if (test = true){
+            person.socialSecurityNumber = "8502160000";
+            person.name = "Patrik Melander";
+        }
+        else {
+            System.out.println("Skriv in medlemens personr");
+            person.socialSecurityNumber = scan.next();
+            System.out.println("Skriv in medlemens fullständiga namn");
+            person.name = scan.next();
+        }
         person.latestPaymentDate =  todayDate;
         list.add(person);
         IOUtil.serialize(serializeFileName, list);

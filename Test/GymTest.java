@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 /**
  * Created by Patrik Melander
@@ -49,7 +50,26 @@ public class GymTest {
             assertEquals(customers.get(i).socialSecurityNumber, testList1.get(i).socialSecurityNumber);
             assertEquals(customers.get(i).name, testList1.get(i).name);
             assertEquals(customers.get(i).latestPaymentDate, testList1.get(i).latestPaymentDate);
+            assertNotEquals(customers.get(i).socialSecurityNumber, testList1.get(i+1).socialSecurityNumber);
+            assertNotEquals(customers.get(i).name, testList1.get(i+1).name);
+            assertNotEquals(customers.get(i).latestPaymentDate, testList1.get(i+1).latestPaymentDate);
         }
+    }
+
+    @Test
+    public void searchForCustomerTEST(){
+        Gym.setTest(true);
+        assertEquals(gym.searchForMember(testList1), testList1.get(0));
+        assertNotEquals(gym.searchForMember(testList1), testList1.get(1));
+    }
+
+    @Test
+    public void createNewMemberTEST(){
+        Gym.setTest(true);
+        customers.addAll(testList1);
+        gym.createNewMember("CustomerTEST.ser", testList1);
+        assertNotEquals(testList1.size(), customers.size());
+        assertEquals(testList1.size()-1, customers.size());
     }
 
 }

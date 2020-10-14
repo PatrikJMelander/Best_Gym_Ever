@@ -39,10 +39,11 @@ public class Gym implements Serializable {
         System.out.print("Ange personnr eller fullständigt namn på personen du vill söka på: ");
 
         while (true) {
-            String input = scan.nextLine().trim();
+            String input;
             if (test)
                 input = "Test Person1";
-
+            else
+                input = scan.nextLine().trim();
             for (var person : list) {
                 if (person.getName().equals(input) ||
                         person.getSocialSecurityNumber().equals(input)) {

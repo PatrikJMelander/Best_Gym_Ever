@@ -36,15 +36,12 @@ public class Gym implements Serializable {
     }
 
     public Person searchForMember(List<Person> list) {
-
+        System.out.print("Ange personnr eller fullständigt namn på personen du vill söka på: ");
+        String input = scan.nextLine().trim();
         while (true) {
-            String input;
             if (test = true)
                 input = "Test Person1";
-            else {
-                System.out.print("Ange personnr eller fullständigt namn på personen du vill söka på: ");
-                input = scan.nextLine().trim();
-            }
+
             for (var person : list) {
                 if (person.getName().equalsIgnoreCase(input) ||
                         person.getSocialSecurityNumber().equals(input)) {

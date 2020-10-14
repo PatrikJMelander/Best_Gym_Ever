@@ -37,13 +37,14 @@ public class Gym implements Serializable {
 
     public Person searchForMember(List<Person> list) {
         System.out.print("Ange personnr eller fullständigt namn på personen du vill söka på: ");
-        String input = scan.nextLine().trim();
+
         while (true) {
-            if (test = true)
+            String input = scan.nextLine().trim();
+            if (test)
                 input = "Test Person1";
 
             for (var person : list) {
-                if (person.getName().equalsIgnoreCase(input) ||
+                if (person.getName().equals(input) ||
                         person.getSocialSecurityNumber().equals(input)) {
 
                     System.out.println("Du har hittat: " + person.name + " " + person.socialSecurityNumber +
@@ -79,7 +80,7 @@ public class Gym implements Serializable {
             Person person = searchForMember(list);
             LocalDate active = person.getLatestPaymentDate().plusYears(1);
             LocalDate todayDate;
-            if (test = true)
+            if (test)
                 todayDate = LocalDate.parse("2020-10-13");
             else
             todayDate = LocalDate.now();
@@ -102,7 +103,7 @@ public class Gym implements Serializable {
 
         LocalDate todayDate = LocalDate.now();
         Person person = new Person();
-        if (test = true){
+        if (test){
             person.socialSecurityNumber = "8502160000";
             person.name = "Patrik Melander";
         }

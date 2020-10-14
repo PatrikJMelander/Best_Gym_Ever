@@ -51,7 +51,7 @@ public class MenuSystem {
             input = scan.nextLine();
 
             switch (input) {
-                case "1" -> gym.searchForMember("customers.ser", Gym.customers);
+                case "1" -> gym.searchForMember(Gym.customers);
                 case "2" -> gym.isCustomerActive("Customer.ser", Gym.customers, "CustomerVisits.txt");
                 case "3" -> gym.updateMembership("Customer.ser", Gym.customers);
                 case "4" -> gym.deleteMember("Customer.ser", Gym.customers);

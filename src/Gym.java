@@ -53,9 +53,7 @@ public class Gym implements Serializable{
         }
     }
 
-    public Person searchForMember(String fileName, List <Person> list) {
-
-        //list = deSerialize(fileName, list);
+    public Person searchForMember(List <Person> list) {
 
         System.out.print("Ange personnr eller fullständigt namn på personen du vill söka på: ");
 
@@ -98,7 +96,7 @@ public class Gym implements Serializable{
         list = deSerialize(customerFileName, list);
         String input = null;
         try {
-            Person person = searchForMember(customerFileName, list);
+            Person person = searchForMember(list);
             LocalDate active = person.getLatestPaymentDate().plusYears(1);;
             LocalDate todayDate = LocalDate.now();
             if (active.isAfter(todayDate)) {
@@ -134,19 +132,19 @@ public class Gym implements Serializable{
     public void updateMembership(String serializeFileName, List <Person> list){
         list = deSerialize(serializeFileName, list);
         Person temp;
-        temp = searchForMember(serializeFileName, list);
+        temp = searchForMember(list);
         temp.setLatestPaymentDate(LocalDate.now());
         System.out.println(temp + " Medlemskap uppdaterat");
         serialize(serializeFileName, list);
     }
 
-    public void deleteMember(String fileName, List <Person> list){
-        list = deSerialize(fileName, list);
+    public void deleteMember(String serializeFileName, List <Person> list){
+        list = deSerialize(serializeFileName, list);
         Person temp;
-        temp = searchForMember(fileName, list);
+        temp = searchForMember(list);
         System.out.println(temp + " är nu borttagen ifrån systemet");
         list.remove(temp);
-        serialize(fileName, list);
+        serialize(serializeFileName, list);
     }
 
     public void createNewMember(String serializeFileName, List <Person> list){
@@ -186,18 +184,18 @@ public class Gym implements Serializable{
         List <Person> exerciseList= new ArrayList<>();
         try {
             createListFromFile(fileName, exerciseList, serializeFileName);
-            Person temp = searchForMember(serializeFileName, exerciseList);
-            int couter = 0;
+            Person temp = searchForMember(exerciseList);
+            int counter = 0;
 
             for (var member : exerciseList) {
                 if (member.getName().equals(temp.getName()) ||
                         member.getSocialSecurityNumber().equals(temp.getSocialSecurityNumber()))
-                    couter++;
-                else if (exerciseList.isEmpty()) ;
+                    counter++;
+                else if (exerciseList.isEmpty())
                 System.out.println("Personen har inga registrerade träningar");
 
             }
-            System.out.println(temp.getName() + "har tränat " + couter + " gånger");
+            System.out.println(temp.getName() + "har tränat " + counter + " gånger");
         }catch (NullPointerException e){
             System.out.println("Personen kunde inte hittas i listan, säker på att hen verkligen tränat?");
         }

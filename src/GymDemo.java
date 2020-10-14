@@ -10,8 +10,7 @@ import java.io.Serializable;
 public class GymDemo implements Serializable {
     GymDemo (){
         Gym gym = new Gym();
-        gym.createListFromFile("Customer.txt", Gym.customers, "customers.ser");
-        Gym.deSerialize("customers.ser", Gym.customers);
+        gym.createListFromFile("Customer.txt", Gym.customers, "Customer.ser");
         MenuSystem.mainMenu();
 
     }

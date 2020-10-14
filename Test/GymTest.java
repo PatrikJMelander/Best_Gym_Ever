@@ -30,7 +30,7 @@ public class GymTest {
     }
     @Test
     public void printFileToListTEST() {
-        gym.createListFromFile("Test.txt", customers, "customers.ser");
+        gym.createListFromFile("Test.txt", customers, "CustomerTEST.ser");
 
         for (int i = 0; i < customers.size(); i++) {
             assertEquals(customers.get(i).socialSecurityNumber, testList1.get(i).socialSecurityNumber);
@@ -38,12 +38,7 @@ public class GymTest {
             assertEquals(customers.get(i).latestPaymentDate, testList1.get(i).latestPaymentDate);
         }
     }
-   /*@Test //Användaren behöver ge input
-        public void searchForPersonNrOrNameTest(){
-        assertEquals(gym.searchForPersonNrOrName(), testList1.get(0).latestPaymentDate);
-        assertEquals(gym.searchForPersonNrOrName(), testList1.get(0).latestPaymentDate);
-        assertEquals(gym.searchForPersonNrOrName(), null);
-    }*/
+
     @Test
     public void serializeAndDeSerializeTEST(){
         addToTestList();
@@ -55,14 +50,6 @@ public class GymTest {
             assertEquals(customers.get(i).name, testList1.get(i).name);
             assertEquals(customers.get(i).latestPaymentDate, testList1.get(i).latestPaymentDate);
         }
-    }
-    @Test
-    void printListOfMembersTEST(){
-
-    }
-    @Test
-    void printListOfAllMembersExerciseTEST(){
-
     }
 
 }

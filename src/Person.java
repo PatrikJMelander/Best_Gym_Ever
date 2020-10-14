@@ -30,7 +30,7 @@ public class Person implements Serializable{
                StringBuilder stringBuilder = new StringBuilder();
                LocalDate today = LocalDate.now();
                stringBuilder.append(person.socialSecurityNumber).append(", ").append(person.name).append("\n").append(today).append("\n");
-               print.println(stringBuilder);
+               print.print(stringBuilder);
 
                print.close();
            }catch (IOException e){

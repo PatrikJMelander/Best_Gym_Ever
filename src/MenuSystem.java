@@ -26,7 +26,7 @@ public class MenuSystem {
             switch (input) {
                 case "1" -> memberMenu();
                 case "2" -> ptMenu();
-                case "3" -> gym.updateCustomerFile("Customer.txt", Gym.customers, "customers.ser");
+                case "3" -> gym.updateCustomerFile("Customer.txt", Gym.customers, "Customer.ser");
                 case "4" -> running = exitMenu();
                 default -> System.out.println("Ange ett giltigt val! (1-4)");
             }
@@ -42,25 +42,21 @@ public class MenuSystem {
             System.out.println("\nVälj vad du vill göra:\n" +
                     "1. Sök efter medlem\n" +
                     "2. Kolla om en medlem är aktiv\n" +
-                    "3. Förnya medlemskap\n" +
-                    "4. Ta bort medlem\n" +
-                    "5. Skapa nytt medlemskap\n" +
-                    "6. Skriv ut lista på alla medlemmar\n" +
-                    "7. Återgå till huvudmenyn");
+                    "3. Skapa nytt medlemskap\n" +
+                    "4. Skriv ut lista på alla medlemmar\n" +
+                    "5. Återgå till huvudmenyn");
 
             input = scan.nextLine();
 
             switch (input) {
                 case "1" -> gym.searchForMember(Gym.customers);
                 case "2" -> gym.isCustomerActive("Customer.ser", Gym.customers, "CustomerVisits.txt");
-                case "3" -> gym.updateMembership("Customer.ser", Gym.customers);
-                case "4" -> gym.deleteMember("Customer.ser", Gym.customers);
-                case "5" -> gym.createNewMember("Customer.ser", Gym.customers);
-                case "6" -> gym.printListOfMembers("Customer.ser", Gym.customers);
-                case "7" -> {
+                case "3" -> gym.createNewMember("Customer.ser", Gym.customers);
+                case "4" -> gym.printListOfMembers("Customer.ser", Gym.customers);
+                case "5" -> {
                     return;
                 }
-                default -> System.out.println("Ange ett giltigt val! (1-7)");
+                default -> System.out.println("Ange ett giltigt val! (1-5");
             }
         }
     }
@@ -79,8 +75,8 @@ public class MenuSystem {
             input = scan.nextLine();
 
             switch (input) {
-                case "1" -> gym.printListOfAllMembersExercise("CustomerVisits.txt", "customers.ser");
-                case "2" -> gym.countOneMembersExercise("CustomerVisits.txt", "customers.ser");
+                case "1" -> gym.printListOfAllMembersExercise("CustomerVisits.txt", "Customer.ser");
+                case "2" -> gym.countOneMembersExercise("CustomerVisits.txt", "Customer.ser");
                 case "3" -> {
                     return;
                 }

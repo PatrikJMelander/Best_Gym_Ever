@@ -10,11 +10,11 @@ import java.util.*;
  * Project: Gym
  * Copyright: MIT
  */
-public class Gym implements Serializable{
+public class Gym implements Serializable {
     public static List<Person> customers = new ArrayList<>();
     Scanner scan = new Scanner(System.in);
 
-    public static void serialize(String fileName, List <Person> listName) {
+    public static void serialize(String fileName, List<Person> listName) {
         try {
             ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName));
             out.writeObject(listName);
@@ -24,7 +24,7 @@ public class Gym implements Serializable{
         }
     }
 
-    public static List<Person> deSerialize(String fileName, List <Person> listName) {
+    public static List<Person> deSerialize(String fileName, List<Person> listName) {
         try {
             ObjectInputStream in = new ObjectInputStream(new FileInputStream(fileName));
             listName = (List<Person>) in.readObject();
@@ -36,7 +36,7 @@ public class Gym implements Serializable{
         return null;
     }
 
-    public void createListFromFile(String fileName, List <Person> list, String serializeFileName) {
+    public void createListFromFile(String fileName, List<Person> list, String serializeFileName) {
         try (Scanner fileScanner = new Scanner(new FileReader(fileName)).useDelimiter(",|\n")) {
             while (fileScanner.hasNext()) {
                 String socialSecurityNumber = fileScanner.next().trim();
@@ -53,7 +53,7 @@ public class Gym implements Serializable{
         }
     }
 
-    public Person searchForMember(List <Person> list) {
+    public Person searchForMember(List<Person> list) {
 
         System.out.print("Ange personnr eller fullständigt namn på personen du vill söka på: ");
 
@@ -61,7 +61,7 @@ public class Gym implements Serializable{
         outerloop:
         while (true) {
             String input = scan.nextLine().trim();
-            for (var person : list){
+            for (var person : list) {
                 if (person.getName().equals(input) || person.getSocialSecurityNumber().equals(input)) {
 
                     System.out.println("Du har hittat: " + person.name + " " + person.socialSecurityNumber +
@@ -92,59 +92,27 @@ public class Gym implements Serializable{
         return null;
     }
 
-    public void isCustomerActive(String customerFileName, List <Person> list, String customerVisitFileName) {
+    public void isCustomerActive(String customerFileName, List<Person> list, String customerVisitFileName) {
         list = deSerialize(customerFileName, list);
         String input = null;
         try {
             Person person = searchForMember(list);
-            LocalDate active = person.getLatestPaymentDate().plusYears(1);;
+            LocalDate active = person.getLatestPaymentDate().plusYears(1);
+            ;
             LocalDate todayDate = LocalDate.now();
             if (active.isAfter(todayDate)) {
                 System.out.println("Kunden är aktiv, registrerar besök");
-                Person.registerVisits(person, customerVisitFileName );
-            } else {
-                System.out.println("Kunden har inget akvitv medlemskap!\n" +
-                        "Förnya medlemskap? (Ja/Nej)?");
+                Person.registerVisits(person, customerVisitFileName);
+            } else
+                System.out.println("Kunden har inget akvitv medlemskap!");
 
-                while (true) {
-                    input = scan.next().toLowerCase().trim();
-                    if (input.equals("ja")) {
-                        scan.nextLine();
-                        updateMembership(customerFileName, list);
-                        break;
-                    } else if (input.equals("nej")) {
-                        scan.nextLine();
-                        System.out.println("Ingen träning registrerad");
-                        break;
-                    } else {
-                        scan.nextLine();
-                        System.out.println("felaktig inmatning, försök igen\n");
-                    }
-                }
+
+            }catch(NullPointerException e){
+                scan.nextLine();
+                System.out.println("Ingen medlem hittades, återgår till huvudmenyn");
             }
-        }catch (NullPointerException e){
-            scan.nextLine();
-            System.out.println("Ingen medlem hittades, återgår till huvudmenyn");
-        }
-        serialize("customers.ser", list);
-    }
+            serialize(customerFileName, list);
 
-    public void updateMembership(String serializeFileName, List <Person> list){
-        list = deSerialize(serializeFileName, list);
-        Person temp;
-        temp = searchForMember(list);
-        temp.setLatestPaymentDate(LocalDate.now());
-        System.out.println(temp + " Medlemskap uppdaterat");
-        serialize(serializeFileName, list);
-    }
-
-    public void deleteMember(String serializeFileName, List <Person> list){
-        list = deSerialize(serializeFileName, list);
-        Person temp;
-        temp = searchForMember(list);
-        System.out.println(temp + " är nu borttagen ifrån systemet");
-        list.remove(temp);
-        serialize(serializeFileName, list);
     }
 
     public void createNewMember(String serializeFileName, List <Person> list){

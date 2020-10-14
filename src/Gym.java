@@ -55,7 +55,7 @@ public class Gym implements Serializable{
 
     public Person searchForMember(String fileName, List <Person> list) {
 
-        list = deSerialize(fileName, list);
+        //list = deSerialize(fileName, list);
 
         System.out.print("Ange personnr eller fullständigt namn på personen du vill söka på: ");
 
@@ -131,13 +131,13 @@ public class Gym implements Serializable{
         serialize("customers.ser", list);
     }
 
-    public void updateMembership(String fileName, List <Person> list){
-        list = deSerialize(fileName, list);
+    public void updateMembership(String serializeFileName, List <Person> list){
+        list = deSerialize(serializeFileName, list);
         Person temp;
-        temp = searchForMember(fileName, list);
+        temp = searchForMember(serializeFileName, list);
         temp.setLatestPaymentDate(LocalDate.now());
         System.out.println(temp + " Medlemskap uppdaterat");
-        serialize(fileName, list);
+        serialize(serializeFileName, list);
     }
 
     public void deleteMember(String fileName, List <Person> list){
@@ -149,8 +149,8 @@ public class Gym implements Serializable{
         serialize(fileName, list);
     }
 
-    public void createNewMember(String fileName, List <Person> list){
-        list = deSerialize(fileName, list);
+    public void createNewMember(String serializeFileName, List <Person> list){
+        list = deSerialize(serializeFileName, list);
         LocalDate todayDate = LocalDate.now();
         Person person = new Person();
         System.out.println("Skriv in medlemens personr");
@@ -159,12 +159,13 @@ public class Gym implements Serializable{
         person.name = scan.next();
         person.latestPaymentDate =  todayDate;
         list.add(person);
-        serialize(fileName, list);
+        serialize(serializeFileName, list);
     }
 
-    public void printListOfMembers(String fileName, List <Person> list){
-        list = deSerialize(fileName, list);
+    public void printListOfMembers(String serializeFileName, List <Person> list){
+        list = deSerialize(serializeFileName, list);
         try {
+
             for (var member : list) {
                 System.out.println(member);
             }
@@ -185,7 +186,7 @@ public class Gym implements Serializable{
         List <Person> exerciseList= new ArrayList<>();
         try {
             createListFromFile(fileName, exerciseList, serializeFileName);
-            Person temp = searchForMember(fileName, exerciseList);
+            Person temp = searchForMember(serializeFileName, exerciseList);
             int couter = 0;
 
             for (var member : exerciseList) {

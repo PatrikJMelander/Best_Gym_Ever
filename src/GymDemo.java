@@ -1,5 +1,4 @@
 import java.io.Serializable;
-import java.util.ArrayList;
 
 /**
  * Created by Patrik Melander
@@ -11,7 +10,7 @@ import java.util.ArrayList;
 public class GymDemo implements Serializable {
     GymDemo (){
         Gym gym = new Gym();
-        gym.createListFromFile("Customer.txt", Gym.customers);
+        gym.createListFromFile("Customer.txt", Gym.customers, "customers.ser");
         Gym.deSerialize("customers.ser", Gym.customers);
         MenuSystem.mainMenu();
 

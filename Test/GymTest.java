@@ -29,9 +29,8 @@ public class GymTest {
         return testList1;
     }
     @Test
-    public void printFileToListTest() {
-        gym.createListFromFile("Test.txt", customers);
-
+    public void printFileToListTEST() {
+        gym.createListFromFile("Test.txt", customers, "customers.ser");
 
         for (int i = 0; i < customers.size(); i++) {
             assertEquals(customers.get(i).socialSecurityNumber, testList1.get(i).socialSecurityNumber);
@@ -46,7 +45,7 @@ public class GymTest {
         assertEquals(gym.searchForPersonNrOrName(), null);
     }*/
     @Test
-    public void serializeTest(){
+    public void serializeAndDeSerializeTEST(){
         addToTestList();
         Gym.serialize("customersTEST.ser", testList1);
         Gym.deSerialize("customersTEST.ser", customers);
@@ -56,6 +55,14 @@ public class GymTest {
             assertEquals(customers.get(i).name, testList1.get(i).name);
             assertEquals(customers.get(i).latestPaymentDate, testList1.get(i).latestPaymentDate);
         }
+    }
+    @Test
+    void printListOfMembersTEST(){
 
     }
+    @Test
+    void printListOfAllMembersExerciseTEST(){
+
+    }
+
 }

@@ -2,6 +2,7 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -15,8 +16,8 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
  */
 public class GymTest {
     Gym gym = new Gym();
-    ArrayList<Person> testList1 = addToTestList();
-    ArrayList<Person> customers = new ArrayList<>();
+    List<Person> testList1 = addToTestList();
+    List<Person> customers = new ArrayList<>();
 
 
     public ArrayList <Person> addToTestList() {
@@ -44,15 +45,13 @@ public class GymTest {
     public void serializeAndDeSerializeTEST(){
         addToTestList();
         IOUtil.serialize("customersTEST.ser", testList1);
-        IOUtil.deSerialize("customersTEST.ser");
+        customers = IOUtil.deSerialize("customersTEST.ser");
 
         for (int i = 0; i < customers.size(); i++) {
             assertEquals(customers.get(i).socialSecurityNumber, testList1.get(i).socialSecurityNumber);
             assertEquals(customers.get(i).name, testList1.get(i).name);
             assertEquals(customers.get(i).latestPaymentDate, testList1.get(i).latestPaymentDate);
-            assertNotEquals(customers.get(i).socialSecurityNumber, testList1.get(i+1).socialSecurityNumber);
-            assertNotEquals(customers.get(i).name, testList1.get(i+1).name);
-            assertNotEquals(customers.get(i).latestPaymentDate, testList1.get(i+1).latestPaymentDate);
+
         }
     }
 
